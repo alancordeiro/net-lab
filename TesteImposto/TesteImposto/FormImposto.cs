@@ -83,6 +83,10 @@ namespace TesteImposto
             cbEstadoOrigem.SelectedIndex = -1;
             cbEstadoDestino.SelectedIndex = -1;
             dataGridViewPedidos.DataSource = null;
+
+            dataGridViewPedidos.DataSource = GetTablePedidos();
+            ResizeColumns();
+
             textBoxNomeCliente.Focus();
             
             //Teste da SP P_CFOP

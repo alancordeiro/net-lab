@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace Imposto.Core.Domain
 {
-    public class Desconto
+     public class AliquotaIPI
     {
-        public double CalcularDesconto(NotaFiscal NF)
+        public double CalcularAliquotaIPI(bool brind)
         {
-            if (NF.EstadoDestino == "SP" || NF.EstadoDestino == "RJ" || NF.EstadoDestino == "ES" || NF.EstadoDestino == "MG")
+            if (brind)
             {
-                return 0.1;
+                return 0;
             }
             else
             {
-                return 1;
+                return 0.1;
             }
          }
+ 
     }
 }

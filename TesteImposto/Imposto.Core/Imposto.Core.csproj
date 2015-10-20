@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,6 +42,9 @@
   <ItemGroup>
     <Compile Include="Data\Conexao.cs" />
     <Compile Include="Data\NotaFiscalRepository.cs" />
+    <Compile Include="Domain\CFOP.cs" />
+    <Compile Include="Domain\Desconto.cs" />
+    <Compile Include="Domain\AliquotaIPI.cs" />
     <Compile Include="Domain\NotaFiscal.cs" />
     <Compile Include="Domain\NotaFiscalItem.cs" />
     <Compile Include="Domain\Pedido.cs" />

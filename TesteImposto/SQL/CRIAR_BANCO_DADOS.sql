@@ -1,4 +1,4 @@
-USE [Teste]
+USE [Imposto]
 GO
 
 /****** Object:  Table [dbo].[NotaFiscal]    Script Date: 24/07/2015 11:58:44 ******/

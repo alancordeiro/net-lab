@@ -11,6 +11,8 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Imposto.Core.Domain;
 using Imposto.Core.Data;
+using System.Windows.Forms;
+
 
 
 namespace Imposto.Core.Service
@@ -22,7 +24,12 @@ namespace Imposto.Core.Service
             NotaFiscal notaFiscal = new NotaFiscal();
             //notaFiscal.ItensDaNotaFiscal = new List<NotaFiscalItem>();
 
-            GerarXML(notaFiscal.EmitirNotaFiscal(pedido));
+            notaFiscal = notaFiscal.EmitirNotaFiscal(pedido);
+            if (GerarXML(notaFiscal))
+            {
+                PersistirBD(notaFiscal);
+                pedido.ItensDoPedido.Clear();
+            }
         }
 
         public SqlDataReader ValorPorCFOP(SqlConnection conex) 
@@ -77,6 +84,74 @@ namespace Imposto.Core.Service
 
             x.Close();
             return "";
+        }
+
+        public void PersistirBD(NotaFiscal NF)
+        {
+          SqlConnection conn = Conexao.obterConexao();
+
+          try
+          {        
+            conn.Open();
+          }
+          catch
+          {
+            MessageBox.Show("Erro ao tentar conectar com o banco de dados");
+          }
+          
+          SqlCommand cmd = new SqlCommand("P_NOTA_FISCAL", conn);
+          cmd.Parameters.AddWithValue("@pID", 0);
+          cmd.Parameters.AddWithValue("@pNumeroNotaFiscal", NF.NumeroNotaFiscal); 
+          cmd.Parameters.AddWithValue("@pSerie", NF.Serie); 
+          cmd.Parameters.AddWithValue("@pNomeCliente", NF.NomeCliente); 
+          cmd.Parameters.AddWithValue("@pEstadoDestino", NF.EstadoDestino);
+          cmd.Parameters.AddWithValue("@pEstadoOrigem", NF.EstadoOrigem); 
+          cmd.CommandType = CommandType.StoredProcedure; 
+             
+          try 
+          { 
+            int n = cmd.ExecuteNonQuery(); 
+            //if (i > 0) MessageBox.Show("Registro incluido com sucesso!"); 
+          } 
+          catch (Exception ex) 
+          { 
+            MessageBox.Show("Erro: " + ex.ToString()); 
+          } 
+
+          try
+          {
+          
+            foreach (NotaFiscalItem itemNF in NF.ItensDaNotaFiscal)
+            {
+          
+              SqlCommand cmd1 = new SqlCommand("P_NOTA_FISCAL_ITEM", conn);
+              cmd1.Parameters.AddWithValue("@pID", 0);  
+              cmd1.Parameters.AddWithValue("@pIdNotaFiscal", itemNF.IdNotaFiscal);
+              cmd1.Parameters.AddWithValue("@pCfop", itemNF.Cfop); 
+              cmd1.Parameters.AddWithValue("@pTipoIcms", itemNF.TipoIcms); 
+              cmd1.Parameters.AddWithValue("@pBaseIcms", itemNF.BaseIcms);
+              cmd1.Parameters.AddWithValue("@pAliquotaIcms", itemNF.AliquotaIcms); 
+              cmd1.Parameters.AddWithValue("@pValorIcms", itemNF.ValorIcms); 
+              cmd1.Parameters.AddWithValue("@pNomeProduto", itemNF.NomeProduto); 
+              cmd1.Parameters.AddWithValue("@pCodigoProduto", itemNF.CodigoProduto);
+              cmd1.Parameters.AddWithValue("@pBaseIPI", itemNF.BaseIPI);
+              cmd1.Parameters.AddWithValue("@pAliquotaIPI", itemNF.AliquotaIPI);
+              cmd1.Parameters.AddWithValue("@pValorIPI", itemNF.ValorIPI);
+              cmd1.Parameters.AddWithValue("@pDesconto", itemNF.Desconto);
+              cmd1.CommandType = CommandType.StoredProcedure; 
+              int i = cmd1.ExecuteNonQuery(); 
+            
+             }
+          }
+          catch (Exception ex) 
+          { 
+            MessageBox.Show("Erro: " + ex.ToString()); 
+          } 
+          finally 
+          { 
+            conn.Close(); 
+          } 
+
         }
     }
 }

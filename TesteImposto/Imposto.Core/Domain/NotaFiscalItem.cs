@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Imposto.Core.Domain
 {
-    [Serializable()] public class NotaFiscalItem
+    [Serializable] 
+    public class NotaFiscalItem
     {
         public int Id { get; set; }
         public int IdNotaFiscal { get; set; }
@@ -20,5 +21,6 @@ namespace Imposto.Core.Domain
         public double BaseIPI { get; set; }
         public double AliquotaIPI { get; set; }
         public double ValorIPI { get; set; }
+        public double Desconto { get; set; }
     }
 }

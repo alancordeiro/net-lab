@@ -1,4 +1,4 @@
-USE [Teste]
+USE [Imposto]
 GO
 IF OBJECT_ID('dbo.P_NOTA_FISCAL') IS NOT NULL
 BEGIN
