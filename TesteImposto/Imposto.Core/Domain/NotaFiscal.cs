@@ -4,9 +4,12 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Imposto.Core.Domain
 {
+    [Serializable]
+    [XmlRoot]
     public class NotaFiscal
     {
         public int Id { get; set; }
@@ -17,21 +20,22 @@ namespace Imposto.Core.Domain
         public string EstadoDestino { get; set; }
         public string EstadoOrigem { get; set; }
 
-        public IEnumerable<NotaFiscalItem> ItensDaNotaFiscal { get; set; }
+        [XmlArrayItem]
+        public List<NotaFiscalItem> ItensDaNotaFiscal { get; private set; }
 
         public NotaFiscal()
         {
-            ItensDaNotaFiscal = new List<NotaFiscalItem>();
+            this.ItensDaNotaFiscal = new List<NotaFiscalItem>();
         }
 
-        public void EmitirNotaFiscal(Pedido pedido)
+        public NotaFiscal EmitirNotaFiscal(Pedido pedido)
         {
-            this.NumeroNotaFiscal = 99999;
+            this.NumeroNotaFiscal = new Random().Next(int.MaxValue); 
             this.Serie = new Random().Next(Int32.MaxValue);
             this.NomeCliente = pedido.NomeCliente;
 
-            this.EstadoDestino = pedido.EstadoOrigem;
-            this.EstadoOrigem = pedido.EstadoDestino;
+            this.EstadoOrigem = pedido.EstadoOrigem;
+            this.EstadoDestino = pedido.EstadoDestino;
 
             foreach (PedidoItem itemPedido in pedido.ItensDoPedido)
             {
@@ -149,10 +153,26 @@ namespace Imposto.Core.Domain
                     notaFiscalItem.TipoIcms = "60";
                     notaFiscalItem.AliquotaIcms = 0.18;
                     notaFiscalItem.ValorIcms = notaFiscalItem.BaseIcms * notaFiscalItem.AliquotaIcms;
+
+                    notaFiscalItem.AliquotaIPI = 0;
+                    
                 }
+                else
+                {
+                    notaFiscalItem.AliquotaIPI = 0.1;
+                }
+                
+                notaFiscalItem.BaseIPI = itemPedido.ValorItemPedido;
+                notaFiscalItem.ValorIPI = notaFiscalItem.BaseIPI * notaFiscalItem.AliquotaIPI;
                 notaFiscalItem.NomeProduto = itemPedido.NomeProduto;
                 notaFiscalItem.CodigoProduto = itemPedido.CodigoProduto;
-            }            
+                notaFiscalItem.IdNotaFiscal = this.NumeroNotaFiscal;
+
+                this.ItensDaNotaFiscal.Add(notaFiscalItem);                
+            }
+
+            
+            return this;
         }
     }
 }
