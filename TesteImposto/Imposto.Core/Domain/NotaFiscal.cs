@@ -30,6 +30,7 @@ namespace Imposto.Core.Domain
 
         public NotaFiscal EmitirNotaFiscal(Pedido pedido)
         {
+                       
             this.NumeroNotaFiscal = new Random().Next(int.MaxValue); 
             this.Serie = new Random().Next(Int32.MaxValue);
             this.NomeCliente = pedido.NomeCliente;
@@ -167,6 +168,7 @@ namespace Imposto.Core.Domain
                 notaFiscalItem.NomeProduto = itemPedido.NomeProduto;
                 notaFiscalItem.CodigoProduto = itemPedido.CodigoProduto;
                 notaFiscalItem.IdNotaFiscal = this.NumeroNotaFiscal;
+                CalcularDesconto(this);
 
                 this.ItensDaNotaFiscal.Add(notaFiscalItem);                
             }
@@ -174,5 +176,6 @@ namespace Imposto.Core.Domain
             
             return this;
         }
+
     }
 }
