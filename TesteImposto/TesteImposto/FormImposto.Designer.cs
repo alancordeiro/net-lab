@@ -32,11 +32,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxNomeCliente = new System.Windows.Forms.TextBox();
-            this.txtEstadoOrigem = new System.Windows.Forms.TextBox();
-            this.txtEstadoDestino = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridViewPedidos = new System.Windows.Forms.DataGridView();
             this.buttonGerarNotaFiscal = new System.Windows.Forms.Button();
+            this.cbEstadoOrigem = new System.Windows.Forms.ComboBox();
+            this.cbEstadoDestino = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPedidos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,20 +73,7 @@
             this.textBoxNomeCliente.Name = "textBoxNomeCliente";
             this.textBoxNomeCliente.Size = new System.Drawing.Size(939, 20);
             this.textBoxNomeCliente.TabIndex = 3;
-            // 
-            // txtEstadoOrigem
-            // 
-            this.txtEstadoOrigem.Location = new System.Drawing.Point(95, 31);
-            this.txtEstadoOrigem.Name = "txtEstadoOrigem";
-            this.txtEstadoOrigem.Size = new System.Drawing.Size(939, 20);
-            this.txtEstadoOrigem.TabIndex = 4;
-            // 
-            // txtEstadoDestino
-            // 
-            this.txtEstadoDestino.Location = new System.Drawing.Point(95, 53);
-            this.txtEstadoDestino.Name = "txtEstadoDestino";
-            this.txtEstadoDestino.Size = new System.Drawing.Size(939, 20);
-            this.txtEstadoDestino.TabIndex = 5;
+            this.textBoxNomeCliente.Leave += new System.EventHandler(this.textBoxNomeCliente_Leave);
             // 
             // label4
             // 
@@ -116,22 +103,100 @@
             this.buttonGerarNotaFiscal.UseVisualStyleBackColor = true;
             this.buttonGerarNotaFiscal.Click += new System.EventHandler(this.buttonGerarNotaFiscal_Click);
             // 
+            // cbEstadoOrigem
+            // 
+            this.cbEstadoOrigem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEstadoOrigem.FormattingEnabled = true;
+            this.cbEstadoOrigem.Items.AddRange(new object[] {
+            "AC",
+            "AL",
+            "AP",
+            "AM",
+            "BA",
+            "CE",
+            "DF",
+            "ES",
+            "GO",
+            "MA",
+            "MT",
+            "MS",
+            "MG",
+            "PA",
+            "PB",
+            "PR",
+            "PE",
+            "PI",
+            "RJ",
+            "RN",
+            "RS",
+            "RO",
+            "RR",
+            "SC",
+            "SP",
+            "SE",
+            "TO"});
+            this.cbEstadoOrigem.Location = new System.Drawing.Point(95, 31);
+            this.cbEstadoOrigem.Name = "cbEstadoOrigem";
+            this.cbEstadoOrigem.Size = new System.Drawing.Size(61, 21);
+            this.cbEstadoOrigem.TabIndex = 4;
+            this.cbEstadoOrigem.Leave += new System.EventHandler(this.cbEstadoOrigem_Leave);
+            // 
+            // cbEstadoDestino
+            // 
+            this.cbEstadoDestino.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbEstadoDestino.FormattingEnabled = true;
+            this.cbEstadoDestino.Items.AddRange(new object[] {
+            "AC",
+            "AL",
+            "AP",
+            "AM",
+            "BA",
+            "CE",
+            "DF",
+            "ES",
+            "GO",
+            "MA",
+            "MT",
+            "MS",
+            "MG",
+            "PA",
+            "PB",
+            "PR",
+            "PE",
+            "PI",
+            "RJ",
+            "RN",
+            "RS",
+            "RO",
+            "RR",
+            "SC",
+            "SP",
+            "SE",
+            "TO"});
+            this.cbEstadoDestino.Location = new System.Drawing.Point(95, 58);
+            this.cbEstadoDestino.Name = "cbEstadoDestino";
+            this.cbEstadoDestino.Size = new System.Drawing.Size(61, 21);
+            this.cbEstadoDestino.TabIndex = 5;
+            this.cbEstadoDestino.Leave += new System.EventHandler(this.cbEstadoDestino_Leave);
+            // 
             // FormImposto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1043, 477);
+            this.Controls.Add(this.cbEstadoDestino);
+            this.Controls.Add(this.cbEstadoOrigem);
             this.Controls.Add(this.buttonGerarNotaFiscal);
             this.Controls.Add(this.dataGridViewPedidos);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtEstadoDestino);
-            this.Controls.Add(this.txtEstadoOrigem);
             this.Controls.Add(this.textBoxNomeCliente);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "FormImposto";
             this.Text = "Calculo de imposto";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormImposto_FormClosed);
+            this.Load += new System.EventHandler(this.FormImposto_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPedidos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,11 +209,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxNomeCliente;
-        private System.Windows.Forms.TextBox txtEstadoOrigem;
-        private System.Windows.Forms.TextBox txtEstadoDestino;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridViewPedidos;
         private System.Windows.Forms.Button buttonGerarNotaFiscal;
+        private System.Windows.Forms.ComboBox cbEstadoOrigem;
+        private System.Windows.Forms.ComboBox cbEstadoDestino;
     }
 }
 
